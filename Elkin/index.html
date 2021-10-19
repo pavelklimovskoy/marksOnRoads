@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <title>HTML5</title>
+  
+  <link rel="stylesheet" href = "css/leaflet.css"  integrity=""  crossorigin=""/>
+  
+  <link rel="stylesheet" href = "css/style.css"/>
+
+  <script src="js/script.js"></script>
+
+
+ <script src="js/leaflet.js" integrity="" crossorigin=""></script>
+
+
+ </head>
+
+    <body>
+        
+            <div id="cont1" > 
+                <button id="button" onclick="onLoadButton()">Open</button>
+                <button id="button" onclick="onSaveButton()">Save</button>
+            </div>
+            <div id="cont3" >
+                <button id="button" onclick="onExecuteButton()">Execute</button>
+            </div>
+            <div id="cont2" >
+                <button id="button" onclick="onAgentButton()">Agent</button>
+                <button id="button" onclick="onRoadButton()">Road</button>
+            </div>
+
+             
+        
+        <div id="mapid"></div> 
+
+        <script> var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+        L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {subdomains:['mt0','mt1','mt2','mt3']}).addTo(mymap);
+        
+        
+        
+        
+        
+        
+        </script>
+    </body>
+
+</html>
