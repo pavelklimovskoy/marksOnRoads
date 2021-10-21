@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Main App</title>
+		<!-- leaflet js and css -->
+		<link rel="stylesheet" href = "css/leaflet.css"  integrity=""  crossorigin=""/>
+		<script src="js/leaflet.js" integrity="" crossorigin=""></script>
+		<!-- fullscreen js and css -->
+		<link href='dist/leaflet.fullscreen.css' rel='stylesheet' />
+		<script src='dist/Leaflet.fullscreen.min.js'></script>
+		<!-- Dev CSS -->
+		<link rel="stylesheet" href = "css/style.css"/>
+		<!-- Dev js -->
+		<script src="js/script.js"></script>
+	</head>
+	<body>
+		
+		<input accept="image/*" type="file" id="files" />
+		<div id="mapid"></div>
+
+		<script> 
+			// Ссылка на изображение по умолчанию
+			var DefSrc = "https://imge.com/wp-content/uploads/2019/02/IMGE-Social-Share.png";
+
+			// Создание исходной карты
+			var map = L.map('mapid', {
+				crs: L.CRS.Simple,
+				minZoom: -1
+				
+			});
+			var bounds = [[0,0], [824, 1886]];
+			var image = L.imageOverlay(DefSrc, bounds).addTo(map);
+			map.fitBounds(bounds);
+			
+			// Функция загрузки документов
+			document.getElementById('files').onchange = function () {
+
+				// Получение ссылки на загруженную картинку	
+				var src = URL.createObjectURL(this.files[0]);
+
+				var _width = 0;
+				var _height = 0;
+
+				// Получение размеров картинки
+				const img = new Image();
+				img.onload = function() {
+					_width = this.width;
+					_height = this.height;					
+
+				// Удаление старого слоя
+				map.removeLayer(image);
+				var bounds = [[0,0], [_height, _width]];
+				image = L.imageOverlay(src, bounds).addTo(map);
+				
+				map.panTo(0, 0)
+				}
+
+
+
+				img.src = src;
+			
+			}
+
+
+				
+		</script>
+
+
+
+	</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <title>HTML5</title>
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+  <link rel="stylesheet" href = "css/style.css"/>
+  <link rel="stylesheet" href="css/styleDownload.css">
+
+  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="js/scriptDownload.js"></script>
+
+  <script src="js/script.js"></script>
+
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+
+ </head>
+
+    <body>
+        
+            <div id="cont1" > 
+                
+                <input accept="image/*" type="file" id="files" />
+                <button id="button" onclick="onSaveButton()">Save</button>
+            </div>
+            <div id="cont3" >
+                <button id="button" onclick="onExecuteButton()">Execute</button>
+            </div>
+            <div id="cont2" >
+                <button id="button" onclick="onAgentButton()">Agent</button>
+                <button id="button" onclick="onRoadButton()">Road</button>
+            </div>
+
+             
+        
+        <div id="mapid"></div> 
+
+        <script>       
+        
+        
+  // Ссылка на изображение по умолчанию
+  var DefSrc = "https://imge.com/wp-content/uploads/2019/02/IMGE-Social-Share.png";
+
+// Создание исходной карты
+var map = L.map('mapid', {
+  crs: L.CRS.Simple,
+  minZoom: -1
+  
+});
+var bounds = [[0,0], [824, 1886]];
+var image = L.imageOverlay(DefSrc, bounds).addTo(map);
+map.fitBounds(bounds);
+
+
+var _agentButton = false;
+var _roadButton = false;
+var _roadClick = 0;
+var _width = 0;
+var _height = 0;
+
+var p1;
+var p2;
+
+// Функция загрузки документов
+document.getElementById('files').onchange = function () {
+
+  // Получение ссылки на загруженную картинку	
+  var src = URL.createObjectURL(this.files[0]);
+
+
+
+  // Получение размеров картинки
+  const img = new Image();
+  img.onload = function() {
+    _width = this.width;
+    _height = this.height;
+    
+    alert(_width + ' ' + _height)
+
+  // Удаление старого слоя
+  map.removeLayer(image);
+  var bounds = [[0,0], [_height, _width]];
+  image = L.imageOverlay(src, bounds).addTo(map);
+  
+  map.panTo(0, 0)
+  }
+
+
+
+  img.src = src;}
+
+
+        function onMapClick(e) {
+            //alert("You clicked the map at " + e.latlng);
+
+            if((0 <= e.latlng.lng  &&  e.latlng.lng <= _width) && (0 <= e.latlng.lat  &&  e.latlng.lat <= _height))
+            {
+                if(_agentButton)
+                {
+                    var marker = L.marker(e.latlng).addTo(map);
+                    _agentButton = false;
+                }
+
+                if(_roadButton)
+                {
+                    
+                    if(_roadClick == 0)
+                    {
+                        p1 = [e.latlng.lat, e.latlng.lng];
+                        _roadClick += 1;
+                        console.log("first click");
+                    }
+                    else if(_roadClick == 1)
+                    {
+                        p2 = [ e.latlng.lat, e.latlng.lng];
+                        
+                        console.log("second click");
+                        console.log(p1);
+                        var polyline = L.polyline([p1, p2], {color: 'red'});
+                        polyline.addTo(map);
+
+                        _roadButton = false;
+                        _roadClick = 0;
+                    }
+
+                }
+                
+            }
+        }
+
+        map.on('click', onMapClick);
+        
+        
+        </script>
+
+
+
+    </body>
+
+</html>

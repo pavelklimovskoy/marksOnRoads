@@ -1,0 +1,31 @@
+html, body
+        {
+            padding: 0;
+            margin: 0;
+            height: 100%; background-color: rgb(100, 100, 235);
+        }
+
+#mapid { height: 100%; width: 100%;}
+#control{
+    
+margin-left: 50px;
+}
+
+#cont1{
+    display:inline;
+    float:left;
+}
+#cont2{
+    display:inline;
+    float:right;
+    
+}
+#cont3{
+    display:inline;
+    float:right;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+#button{
+    margin-left: 50px;
+}
