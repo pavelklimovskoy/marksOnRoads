@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Main App</title>
+		
+		<!-- leaflet js and css -->
+		<link rel="stylesheet" href = "css/leaflet.css"  integrity=""  crossorigin=""/>
+		<script src="js/leaflet.js" integrity="" crossorigin=""></script>
+		<!-- fullscreen js and css -->
+		<link href='dist/leaflet.fullscreen.css' rel='stylesheet' />
+		<script src='dist/Leaflet.fullscreen.min.js'></script>
+		<!-- Dev CSS -->
+		<link rel="stylesheet" href = "css/style.css"/>
+		<!-- Dev js -->
+		<script src="js/script.js"></script>
+	</head>
+	<body>
+		
+		
+		<div id="mapid"></div>
+		<script>
+			
+				var map = L.map('mapid', {
+						crs: L.CRS.Simple
+				});
+
+				var bounds = [[0,0], [824, 1886]];
+				var image = L.imageOverlay('pic2.png', bounds).addTo(map);
+				map.fitBounds(bounds);
+				
+		</script>
+	</body>
+</html>
