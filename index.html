@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+ <head>
+	<meta charset="utf-8" />
+	<html lang="en">
+	<title>Traffic Map</title>
+
+	<!--Bootrstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<!--Bootrstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+	integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+	crossorigin=""/>
+	<link rel="stylesheet" href = "css/style.css"/>
+	<link rel="stylesheet" href="css/styleDownload.css">
+
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/scriptDownload.js"></script>
+
+	<!-- leafleat -->
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+	integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+	crossorigin=""></script>
+
+	<!-- fullscreen js and css -->
+	<link href='dist/leaflet.fullscreen.css' rel='stylesheet' />
+	<script src='dist/Leaflet.fullscreen.min.js'></script>
+
+    <!--Custom JS -->
+    <script src="js/script.js"></script>
+
+</head>
+<body>
+
+  <div class="row">
+    <div class="col-md-auto">
+        <input accept="image/*" type="file" id="files" />
+        <button id="button" class="btn btn-success" type="button" onclick="onSaveButton()">Save</button>
+    </div>
+    <div class="col-md-auto">
+      <input type="button" class="btn btn-success" id="dwn-btn" onclick="onDownloadButton()" value="Execute"/>
+    </div>
+    <div class="col-md-auto">
+        <button id="button" class="btn btn-success" type="button" onclick="onAgentButton()">Agent</button>
+        <button id="button" class="btn btn-success" type="button"onclick="onRoadButton()">Road</button>
+        <button id="button" class="btn btn-success" type="button"onclick="Remove()">Clear</button>
+    </div>
+  </div>
+
+<div id="mapid"></div> 
+
+
+<script>       
+        
+// Ссылка на изображение по умолчанию
+var DefSrc = "img/start_image.png";
+
+// Создание исходной карты
+var map = L.map('mapid', {
+  crs: L.CRS.Simple,
+  minZoom: -1, 
+  fullscreenControl: {
+	pseudoFullscreen: false
+	}
+});
+
+var a1 = L.marker([0, 5]).bindPopup('a1');
+var a2 = L.marker([0, 50]).bindPopup('a2');
+var a3 = L.marker([0, 100]).bindPopup('a3');
+
+var r1 = L.marker([5, 5]).bindPopup('r1');
+var r2 = L.marker([50, 50]).bindPopup('r2');
+var r3 = L.marker([100, 100]).bindPopup('r3');
+
+var agents =  new  L.layerGroup([a1, a1, a3]);
+var roads = L.layerGroup([r1, r1, r3]);
+
+var overlayMaps = {
+    "Agents": agents,
+    "Roads" : roads
+};  
+
+//L.control.layers(overlayMaps).addTo(map);
+L.control.layers(overlayMaps).addTo(map);
+
+var bounds = [[0,0], [900, 1600]];
+var image = L.imageOverlay(DefSrc, bounds).addTo(map);
+map.fitBounds(bounds);
+
+
+var _agentButton = false;
+var _roadButton = false;
+var _roadClick = 0;
+var _width = 0;
+var _height = 0;
+
+var p1;
+var p2;
+
+// Функция загрузки новой картинки
+document.getElementById('files').onchange = function () {
+
+  // Получение ссылки на загруженную картинку	
+  var src = URL.createObjectURL(this.files[0]);
+
+  // Получение размеров картинки
+  const img = new Image();
+  img.onload = function() {
+    _width = this.width;
+    _height = this.height;
+    
+
+    alert(_width + ' ' + _height)
+
+  // Удаление старого слоя
+  map.removeLayer(image);
+
+  // Нанесение нового
+  var bounds = [[0,0], [_height, _width]];
+  image = L.imageOverlay(src, bounds).addTo(map);
+  
+  // Установка точки обзора
+  map.setView([_height / 2, _width / 2], 0)
+  }
+
+  img.src = src;
+}
+
+// Обработка кликов мыши
+function onMapClick(e) {
+    //alert("You clicked the map at " + e.latlng);
+
+    // Проверка, что клик в зоне изображения
+    if((0 <= e.latlng.lng  &&  e.latlng.lng <= _width) &&
+       (0 <= e.latlng.lat  &&  e.latlng.lat <= _height))
+    {
+    	// Флаг добавления агента
+        if(_agentButton)
+        {
+            var marker = L.marker(e.latlng).addTo(map);
+            _agentButton = false;
+        }
+
+        // Флаг добавления дороги
+        if(_roadButton)
+        {
+            if(_roadClick == 0)
+            {
+                p1 = [e.latlng.lat, e.latlng.lng];
+                _roadClick += 1;
+                console.log("first click");
+            }
+            else if(_roadClick == 1)
+            {
+                p2 = [ e.latlng.lat, e.latlng.lng];
+                
+                console.log("second click");
+                console.log(p1);
+                var polyline = L.polyline([p1, p2], {color: 'red'});
+                polyline.addTo(map);
+
+                _roadButton = false;
+                _roadClick = 0;
+            }
+        } 
+    }
+}
+
+// Вызов функции по событию
+map.on('click', onMapClick);   
+</script>
+
+</body>
+</html>

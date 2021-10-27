@@ -1,0 +1,110 @@
+#map {
+  height: 100vh;
+}
+
+body main {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100vh;
+}
+
+body main .navMap {
+  padding: 1vw;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+body main .navMap .nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+body main .navMap .nav h3 {
+  font-size: 1.5vw;
+}
+
+body main .navMap .nav p {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 1vw;
+}
+
+body main .navMap .nav table td {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+body main .navMap .nav table td:hover {
+  background-color: gray;
+}
+
+body main .navMap.active {
+  -webkit-transform: translateX(-14.5vw);
+          transform: translateX(-14.5vw);
+}
+
+body main .map {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  position: relative;
+}
+
+body main .map #burger {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 130px;
+  left: 12px;
+  background-color: #fff;
+  border-radius: 4px;
+  outline: 2px solid rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body main .map #burger .burgerLine {
+  width: 80%;
+  height: 2px;
+  background-color: black;
+  position: relative;
+}
+
+body main .map #burger.active {
+  -webkit-transform: translateX(-14.5vw);
+          transform: translateX(-14.5vw);
+}
+
+body main .map #map {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  width: 100vw;
+}
+
+body main .map #map.active {
+  -webkit-transform: translateX(-14.5vw);
+          transform: translateX(-14.5vw);
+}
+/*# sourceMappingURL=style.css.map */

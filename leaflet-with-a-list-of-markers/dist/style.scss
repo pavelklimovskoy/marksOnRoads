@@ -1,0 +1,80 @@
+// html, body, .full, #map{
+//   margin: 0;
+//   padding:0;
+//   height: 100%;
+// }
+#map {
+  height: 100vh;
+}
+body {
+  main {
+    overflow: hidden;
+    display: flex;
+    height: 100vh;
+    .navMap {
+      padding: 1vw;
+      .nav {
+        display: flex;
+        flex-direction: column;
+        h3 {
+          font-size: 1.5vw;
+        }
+        p {
+          width: fit-content;
+          font-size: 1vw;
+          input {
+          }
+        }
+        table {
+          td {
+            transition: 0.3s;
+            &:hover {
+              background-color: gray;
+            }
+          }
+        }
+      }
+      transition: 0.3s;
+      &.active {
+        transform: translateX(-14.5vw);
+      }
+    }
+    .map {
+      flex-grow: 1;
+      position: relative;
+      #burger {
+        transition: 0.3s;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 130px;
+        left: 12px;
+        background-color: #fff;
+        border-radius: 4px;
+        outline: 2px solid rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .burgerLine {
+          width: 80%;
+          height: 2px;
+          background-color: black;
+          position: relative;
+        }
+        &.active {
+          transform: translateX(-14.5vw);
+        }
+      }
+      #map {
+        transition: 0.3s;
+
+        &.active {
+          transform: translateX(-14.5vw);
+        }
+        width: 100vw;
+      }
+    }
+  }
+}
