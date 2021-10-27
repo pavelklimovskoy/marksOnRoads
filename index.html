@@ -36,21 +36,15 @@
 </head>
 <body>
 
-  <div class="row">
-    <div class="col-md-auto">
-        <input accept="image/*" type="file" id="files" />
-        <button id="button" class="btn btn-success" type="button" onclick="onSaveButton()">Save</button>
-    </div>
-    <div class="col-md-auto">
-      <input type="button" class="btn btn-success" id="dwn-btn" onclick="onDownloadButton()" value="Execute"/>
-    </div>
-    <div class="col-md-auto">
-        <button id="button" class="btn btn-success" type="button" onclick="onAgentButton()">Agent</button>
-        <button id="button" class="btn btn-success" type="button"onclick="onRoadButton()">Road</button>
-        <button id="button" class="btn btn-success" type="button"onclick="Remove()">Clear</button>
-    </div>
-  </div>
 
+  <div class="customBtnsContainer">
+    <label class="customBtn" for="files">Upload</label>
+    <input  accept="image/*" type="file" id="files"></input>
+    <button onclick="onSaveButton()" class="customBtn">Save</button>
+    <button onclick="onDownloadButton()" class="customBtn">Execute</button>
+    <button onclick="onAgentButton()" class="customBtn">Agent</button>
+    <button onclick="Remove()" class="customBtn">Road</button>
+  </div>
 <div id="mapid"></div> 
 
 
